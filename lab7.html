@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>A-Frame AR Marker</title>
+
+  <!-- Local A-Frame -->
+  <script src="aframe.min.js"></script>
+
+  <!-- Local AR.js for A-Frame -->
+  <script src="aframe-ar.js"></script>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+    <!-- Marker -->
+    <a-marker type="pattern" url="pattern-letterA.patt">
+      <a-box position="0 0.5 0" material="color: red; opacity: 0.5"></a-box>
+      <a-cylinder color="green" height="1" radius="0.3" position="1 0.5 0"></a-cylinder>
+    </a-marker>
+      <a-marker type="pattern" url="pattern-letterF.patt">
+      <a-torus position="0 0.5 0" material="color: blue; opacity: 0.5"></a-torus>
+      <a-sphere color="green" height="1" radius="0.3" position="1 0.5 0"></a-sphere>
+    </a-marker>
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+
+  </a-scene>
+</body>
+</html>

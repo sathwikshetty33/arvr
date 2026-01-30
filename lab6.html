@@ -1,0 +1,52 @@
+Lab 7 : <!doctype html>
+<html>
+<head>
+<title>A-Frame Geolocation</title>
+
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+function showShapes(position)
+ {
+var currentLatitude = position.coords.latitude;
+var currentLongitude = position.coords.longitude;
+console.log("Latitude: " + currentLatitude);
+console.log("Longitude: " + currentLongitude);
+
+var locations = [
+{ id: "box", lat:12.90567,lon:77.5643, threshold: 50.005 },
+{ id: "torus", lat: 12.90567, lon: 77.5643, threshold: 50.005 },
+{ id: "sphere", lat: 12.90567,lon: 77.5643,threshold: 50.005}
+];
+locations.forEach(location => {
+var shape = document.querySelector(`#${location.id}`);
+if (shape && Math.abs(currentLatitude - location.lat) < location.threshold &&
+Math.abs(currentLongitude - location.lon) < location.threshold) {
+shape.setAttribute('visible', true);
+}
+});
+}
+function locationError(error) {
+console.error("Error getting location: ", error);
+document.getElementById('currentLocation').innerHTML =
+`Error getting location: ${error.message}`;
+}
+function getLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showShapes, locationError, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+} else {
+document.getElementById('currentLocation').innerHTML =
+"Geolocation is not supported by this browser.";
+}
+}
+getLocation();
+});</script>
+</head>
+<body><h3 id="currentLocation">Fetching location...</h3>
+<a-scene><a-box id="box" position="0 0.5 -3" rotation="0 45 0" color="red" visible="false"></a-box>
+<a-torus id="torus" position="2 0.5 -3" radius="0.5" height="1.5" color="blue" visible="false"></a-torus>
+<a-prism id="sphere" position="-2 0.75 -3" radius="0.75" color="green" visible="false"></a-prism>
+<a-camera gps-camera rotation-reader></a-camera>
+</a-scene>
+</body>
+</html>
